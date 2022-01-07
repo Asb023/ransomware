@@ -9,7 +9,7 @@ As part of our studies in system security at Henallux, we have to realize a rans
 ```shell
 user@hostname$ sudo apt-get install libssl-dev
 ```
-You must have 2 virtual machines (victim and server). Put **ransom** files into victim VM and the **server** files into server VM.
+You must have 2 virtual machines (victim and server) in internal network to test the program. Put **ransom** files into victim VM and the **server** files into server VM.
 
 * Victim VM has IP address 192.168.10/24
 * Server VM has IP address 192.168.20/24
