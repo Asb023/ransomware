@@ -70,9 +70,3 @@ user@hostname$ ./ransom -d [path] [key] [iv]
 user@hostname$ ./ransom -usage
 ```
 - ***-usage*** : Display the ransomware help
-
-## Execution : server
-
-```shell
-user@hostname$ ./server
-```
