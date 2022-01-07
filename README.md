@@ -1,6 +1,6 @@
 # ransom
 
-As part of our studies in system security at Henallux, we have to realize a ransomware
+As part of my studies in system security at Henallux, I have to realize a ransomware
 
 
 **Make sure you have the OpenSSL library installed on your machines**
