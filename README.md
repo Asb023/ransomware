@@ -7,6 +7,14 @@ As part of my studies in system security at Henallux, I have to realize a ransom
 ```shell
 user@hostname$ sudo apt-get install libssl-dev
 ```
+
+## Installation
+You must have 2 virtual machines (victim and server). Put **server** files into server VM and the **ransom** files into victim VM.
+
+or, on each VMs, run the following command to clone the repository:
+```shell
+user@hostname$ git clone https://github.com/Asb023/ransomware.git
+```
 ## Compilation of ransom.c and server.c
 **On Victim machine :**
 ```shell
@@ -15,13 +23,6 @@ gcc -Wall -o ransom ransom.c ransomlib.c -lcrypto
 **On Server machine :**
 ```shell
 gcc -o server server.c
-```
-## Installation
-You must have 2 virtual machines (victim and server). Put **server** files into server VM and the **ransom** files into victim VM.
-
-or, on each VMs, run the following command to clone the repository:
-```shell
-user@hostname$ git clone https://github.com/Asb023/ransomware.git
 ```
 
 ## Execution
