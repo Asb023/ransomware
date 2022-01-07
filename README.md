@@ -17,7 +17,12 @@ gcc -Wall -o ransom ransom.c ransomlib.c -lcrypto
 gcc -o server server.c
 ```
 ## Installation
-You must have 2 virtual machine (victim and server). Put **server** file into server VM and the **ransom** file into victim VM.
+You must have 2 virtual machines (victim and server). Put **server** files into server VM and the **ransom** files into victim VM.
+
+or, on each VMs, run the following command to clone the repository:
+```shell
+user@hostname$ git clone https://github.com/Asb023/ransomware.git
+```
 
 ## Execution
 ### Encryption
