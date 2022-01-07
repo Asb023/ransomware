@@ -14,7 +14,7 @@ You must have 2 virtual machines (victim and server). Put **ransom** files into 
 * Victim VM has IP address 192.168.10/24
 * Server VM has IP address 192.168.20/24
 
-or, on each VMs, run the following command to clone the repository:
+On each VMs, run the following command to clone the repository:
 ```shell
 user@hostname$ git clone https://github.com/Asb023/ransomware.git
 ```
@@ -29,7 +29,12 @@ gcc -Wall -o ransom ransom.c ransomlib.c -lcrypto
 ```shell
 gcc -o server server.c
 ```
+## Execution : server
 
+```shell
+user@hostname$ ./server
+```
+**PS :** Run the server before starting the encryption
 ## Execution : ransom
 
 ### Encryption
