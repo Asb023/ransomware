@@ -1,20 +1,25 @@
-# ransom
+# Ransomware Project
+> by Aurélien and Alexandre
 
-As part of my studies in system security at Henallux, I have to realize a ransomware
+As part of our studies in system security at Henallux, we have to realize a ransomware
 
+## Installation
 
 **Make sure you have the OpenSSL library installed on your machines**
 ```shell
 user@hostname$ sudo apt-get install libssl-dev
 ```
+You must have 2 virtual machines (victim and server). Put **ransom** files into victim VM and the **server** files into server VM.
 
-## Installation
-You must have 2 virtual machines (victim and server). Put **server** files into server VM and the **ransom** files into victim VM.
+* Victim VM has IP address 192.168.10/24
+* Server VM has IP address 192.168.20/24
 
 or, on each VMs, run the following command to clone the repository:
 ```shell
 user@hostname$ git clone https://github.com/Asb023/ransomware.git
 ```
+**PS :** You will have direct access to the executable files by cloning this GitHub repository so no need to recompile the files
+
 ## Compilation of ransom.c and server.c
 **On Victim machine :**
 ```shell
@@ -25,7 +30,8 @@ gcc -Wall -o ransom ransom.c ransomlib.c -lcrypto
 gcc -o server server.c
 ```
 
-## Execution
+## Execution : ransom
+
 ### Encryption
 
 ```shell
@@ -59,3 +65,9 @@ user@hostname$ ./ransom -d [path] [key] [iv]
 user@hostname$ ./ransom -usage
 ```
 - ***-usage*** : Display the ransomware help
+
+## Execution : server
+
+```shell
+user@hostname$ ./server
+```
