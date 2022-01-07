@@ -5,7 +5,7 @@ As part of our studies in system security at Henallux, we have to realize a rans
 
 **Make sure you have the OpenSSL library installed on your machines**
 ```shell
-user@kali$ sudo apt-get install libssl-dev
+user@hostname$ sudo apt-get install libssl-dev
 ```
 ## Compilation of ransom.c and server.c
 **On Victim machine :**
@@ -23,7 +23,7 @@ You must have 2 virtual machine (victim and server). Put **server** file into se
 ### Encryption
 
 ```shell
-user@victim$ ./ransom -e [path]
+user@hostname$ ./ransom -e [path]
 ```
 - ***-e*** : Ransomware encryption mode
 - ***[path]*** : Start path of encryption [char *]
@@ -31,7 +31,7 @@ user@victim$ ./ransom -e [path]
 ### Payment
 
 ```shell
-user@victim$ ./ransom -pay
+user@hostname$ ./ransom -pay
 ```
 - ***-pay*** : Payment mode
 
@@ -39,7 +39,7 @@ user@victim$ ./ransom -pay
 
 ### Decryption
 ```shell
-user@victim$ ./ransom -d [path] [key] [iv]
+user@hostname$ ./ransom -d [path] [key] [iv]
 ```
 - ***-d*** : Ransomware decryption mode
 - ***[path]*** : Start path of encryption [char *]
@@ -50,6 +50,6 @@ user@victim$ ./ransom -d [path] [key] [iv]
 ### Help
 
 ```shell
-user@victim$ ./ransom -usage
+user@hostname$ ./ransom -usage
 ```
 - ***-usage*** : Display the ransomware help
