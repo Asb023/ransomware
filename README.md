@@ -1,31 +1,39 @@
-# Ransomware Project
-> by Aurélien and Alexandre
+# Projet Ransomware
+> par Aurélien and Alexandre
 
-As part of our studies in system security at Henallux, we have to realize a ransomware
+Dans le cadre de nos études en sécurité des systèmes à l'Henallux, nous devons réaliser un ransomware. Ce ransomware est uniquement à but pédagogique.
+
+Nous vous rappelons qu'un ransomware est un logiciel malveillant qui va bloquer vos données en les chiffrant et en vous demandant un paiement en échange du déchiffrement de vos données.
 
 ## Installation
 
-**Make sure you have the OpenSSL library installed on your machines**
-```shell
-user@hostname$ sudo apt-get install libssl-dev
-```
-You must have 2 virtual machines (victim and server) in internal network to test the program. Put **ransom** files into victim VM and the **server** files into server VM.
+Vous devrez disposer de 2 machines virtuelles (***victime*** et ***serveur***) en réseau interne pour tester le programme.
 
-* Victim VM has IP address 192.168.10/24
-* Server VM has IP address 192.168.20/24
+Dans ***ransom_files***, vous trouverez le fichier exécutable du ransomware et son code source. Installez l'exécutable sur la **VM victime**.
+ 
+Dans ***server_files***, vous trouverez le fichier exécutable du server et son code source. Installez l'exécutable sur le  ***serveur***.
 
-On each VMs, run the following command to clone the repository:
+
+> * Victim a comme adresse IP 192.168.10/24
+> 
+> * Server a comme adresse IP 192.168.20/24
+
+Sur chaque VM, clonez le répertoire :
 ```shell
 user@hostname$ git clone https://github.com/Asb023/ransomware.git
 ```
-**PS :** You will have direct access to the executable files by cloning this GitHub repository so no need to recompile the files
 
-## Compilation of ransom.c and server.c
-**On Victim machine :**
+## Compilation de ransom.c et server.c
+
+Vous pouvez également compiler le code source. Pour ce faire, assurez-vous que la bibliothèque OpenSSL est installée.
+```shell
+user@hostname$ sudo apt-get install libssl-dev
+```
+**Sur la VM Victim :**
 ```shell
 gcc -Wall -o ransom ransom.c ransomlib.c -lcrypto
 ```
-**On Server machine :**
+**Sur le server :**
 ```shell
 gcc -o server server.c
 ```
@@ -34,39 +42,39 @@ gcc -o server server.c
 ```shell
 user@hostname$ ./server
 ```
-**PS :** Run the server before starting the encryption
+**PS :** Lancer l'exécution du server avant de lancer l'exécution de ransom.
 ## Execution : ransom
 
-### Encryption
+### Chiffrement
 
 ```shell
 user@hostname$ ./ransom -e [path]
 ```
-- ***-e*** : Ransomware encryption mode
-- ***[path]*** : Start path of encryption [char *]
+- ***-e*** : Mode de chiffrement du ransomware
+- ***[path]*** : Répertoire de départ du chiffrement [char *]
 
-### Payment
+### Paiement
 
 ```shell
 user@hostname$ ./ransom -pay
 ```
-- ***-pay*** : Payment mode
+- ***-pay*** : Va envoyer le "paiement" au serveur
 
-**Warning :** Without running this command, you will not be able to decrypt!
+**Attention :** Sans lancer cette commande, vous ne saurez pas déchiffrer !
 
-### Decryption
+### Déchiffrement
 ```shell
 user@hostname$ ./ransom -d [path] [key] [iv]
 ```
-- ***-d*** : Ransomware decryption mode
-- ***[path]*** : Start path of encryption [char *]
-- ***[key]*** : AES-256-CBC symetric key in hexadecimal [char *] - optional parameter
-- ***[iv]*** : Initializing vector in hexadecimal [char *] - optional parameter
+- ***-d*** : Mode de déchiffrement du ransomware
+- ***[path]*** : Répertoire de départ du déchiffrement [char *]
+- ***[key]*** : Clé de chiffrement symétrique AES-256-CBC en hexadecimal [char *] - paramètre optionnel
+- ***[iv]*** : Vecteur d'initialisation en hexadecimal [char *] - paramètre optionnel
 
-**PS :** If you pay the ransom, you can execute this without filling in the key and the iv.
-### Help
+**PS :** Si la rançon est payée, vous pourrez exécuter cet option sans rensigner la clé de chiffrement et le vecteur d'initialisation.
+### Aide
 
 ```shell
 user@hostname$ ./ransom -usage
 ```
-- ***-usage*** : Display the ransomware help
+- ***-usage*** : Affiche l'aide
