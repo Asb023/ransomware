@@ -60,7 +60,7 @@ user@hostname$ ./ransom -pay
 ```
 - ***-pay*** : Va envoyer le "paiement" au serveur
 
-**Attention :** Sans lancer cette commande, vous ne saurez pas déchiffrer !
+**Attention :** Sans exécuter cette commande, vous ne saurez pas déchiffrer vos fichiers !
 
 ### Déchiffrement
 ```shell
