@@ -71,7 +71,7 @@ user@hostname$ ./ransom -d [path] [key] [iv]
 - ***[key]*** : Clé de chiffrement symétrique AES-256-CBC en hexadecimal [char *] - paramètre optionnel
 - ***[iv]*** : Vecteur d'initialisation en hexadecimal [char *] - paramètre optionnel
 
-**PS :** Si la rançon est payée, vous pourrez exécuter cet option sans rensigner la clé de chiffrement et le vecteur d'initialisation.
+**PS :** Si la rançon est payée, vous pourrez exécuter cet option sans renseigner la clé de chiffrement et le vecteur d'initialisation.
 ### Aide
 
 ```shell
